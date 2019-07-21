@@ -134,6 +134,56 @@ const putRecipe = (req, res) => {
     })
 }
 
+const deleteRecipePage = (req, res) => {
+    let id = parseInt(req.params.id);
+
+    jsonfile.readFile(file, (err, obj) => {
+        if (err) {
+            res.status(500).send("Internal server error");
+        } else {
+            let recipe = obj.recipes.find(recipe => {
+                return (recipe.id === id ? recipe : null)
+            });
+
+            if (recipe) {
+                let data = {"recipe": recipe};
+
+                res.render('deleteRecipe', data);
+            } else {
+                res.status(404).send("sorry, recipe not found!");
+            }
+        }
+    })
+}
+
+const deleteRecipe = (req, res) => {
+    let id = parseInt(req.params.id);
+
+    jsonfile.readFile(file, (err, obj) => {
+        if (err) {
+            res.status(500).send("Internal server error");
+        } else {
+            let updatedObj = obj;
+            let index = updatedObj.recipes.findIndex(recipe => {
+                return recipe.id === id
+            });
+
+            updatedObj.recipes.splice(index, 1);
+
+            res.render('deleteRedirect');
+
+            jsonfile.writeFile(file, updatedObj, (err) => {
+                if (err) { console.log(err) };
+
+            });
+        }
+    })
+}
+
+// const deletedRedirect = (req, res) => {
+//     res.render('deleteRedirect');
+// }
+
 const homepage = (req, res) => {
     jsonfile.readFile(file, (err, obj) => {
         if (err) {
@@ -152,6 +202,9 @@ const homepage = (req, res) => {
  * Routes
  * ===================================
  */
+
+app.get('/recipe/:id/delete', deleteRecipePage);
+app.delete('/recipe/:id', deleteRecipe);
 
 app.get('/recipe/:id/edit', editRecipePage);
 app.put('/recipe/:id', putRecipe);
