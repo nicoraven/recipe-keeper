@@ -1,3 +1,21 @@
 {
-  "recipes":[]
+  "recipes": [
+    {
+      "title": "fibonacci carbonara",
+      "ingredients": [
+        "fibonacci",
+        "cream sauce",
+        "peas",
+        "chicken ham",
+        "pepper"
+      ],
+      "instructions": [
+        "cook fibonacci to al dente",
+        "toss fibonacci, cream sauce, peas, and chicken ham into hot pan and mix well for 10 mins",
+        "serve on dish and add pepper to taste"
+      ],
+      "id": 1
+    }
+  ],
+  "lastIndex": 1
 }

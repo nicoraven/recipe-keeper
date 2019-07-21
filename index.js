@@ -38,6 +38,32 @@ app.set('view engine', 'jsx');
  * ===================================
  */
 
+const newRecipePage = (req, res) => {
+    res.render('createRecipe')
+}
+
+const postNewRecipe = (req, res) => {
+    console.log(req.body);
+
+    jsonfile.readFile(file, (err, obj) => {
+        let newRecipe = req.body;
+        let id = obj.lastIndex+1;
+        let updatedObj = obj;
+
+        newRecipe.id = id;
+        newRecipe.ingredients = newRecipe.ingredients.split("; ");
+        newRecipe.instructions = newRecipe.instructions.split("; ");
+
+        updatedObj.recipes.push(newRecipe);
+        updatedObj.lastIndex = id;
+
+        jsonfile.writeFile(file, updatedObj, (err) => {
+            if (err) { console.log(err) };
+
+            res.send(newRecipe);
+        });
+    })
+}
 
 const homepage = (req, res) => {
     res.render('home');
@@ -49,7 +75,8 @@ const homepage = (req, res) => {
  * ===================================
  */
 
-
+app.post('/recipe', postNewRecipe);
+app.get('/recipe/new', newRecipePage);
 
 // default index page
 app.get('/', homepage);
