@@ -1,6 +1,6 @@
 var React = require('react');
 
-class NewRecipe extends React.Component {
+class EditRecipe extends React.Component {
     render() {
       let recipe = this.props.recipe;
       let url = `/recipe/${recipe.id}?_method=PUT`;
@@ -42,4 +42,4 @@ class NewRecipe extends React.Component {
     }
 }
 
-module.exports = NewRecipe;
+module.exports = EditRecipe;
