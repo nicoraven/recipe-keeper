@@ -88,7 +88,16 @@ const showRecipePage = (req, res) => {
 }
 
 const homepage = (req, res) => {
-    res.render('home');
+    jsonfile.readFile(file, (err, obj) => {
+        if (err) {
+            res.status(500).send("Internal server error");
+        } else {
+            let recipes = obj.recipes;
+            let data = {"recipes": recipes};
+
+            res.render('home', data);
+        }
+    })
 }
 
 /*

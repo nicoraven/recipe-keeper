@@ -2,6 +2,12 @@ var React = require('react');
 
 class Home extends React.Component {
     render() {
+
+        let recipes = this.props.recipes.map((recipe, index) => {
+            let url = "/recipe/" + recipe.id;
+            return (<li key={index}><a href={url}>{recipe.title}</a></li>);
+        });
+
         return(
 
 <html>
@@ -16,7 +22,7 @@ class Home extends React.Component {
         <div className="content-wrapper">
             <h3>List of recipes below:</h3>
             <ul>
-
+                {recipes}
             </ul>
         </div>
     </div>
