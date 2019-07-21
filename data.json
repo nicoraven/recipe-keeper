@@ -15,7 +15,23 @@
         "serve on dish and add pepper to taste"
       ],
       "id": 1
+    },
+    {
+      "title": "algo olio",
+      "ingredients": [
+        "300gm spaghetti",
+        "200gm algo",
+        "olive oil",
+        "shredded chili",
+        "spring onions for dressing"
+      ],
+      "instructions": [
+        "cook spaghetti to al dente",
+        "toss spaghetti to pan, add algo, schredded chili, and oil. Mix well.",
+        "Serve with spring onions on top"
+      ],
+      "id": 2
     }
   ],
-  "lastIndex": 1
+  "lastIndex": 2
 }

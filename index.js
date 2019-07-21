@@ -60,8 +60,30 @@ const postNewRecipe = (req, res) => {
         jsonfile.writeFile(file, updatedObj, (err) => {
             if (err) { console.log(err) };
 
-            res.send(newRecipe);
+            res.redirect('/recipe/'+id)
         });
+    })
+}
+
+const showRecipePage = (req, res) => {
+    let id = parseInt(req.params.id);
+
+    jsonfile.readFile(file, (err, obj) => {
+        if (err) {
+            res.status(500).send("Internal server error");
+        } else {
+            let recipe = obj.recipes.find(recipe => {
+                return (recipe.id === id ? recipe : null)
+            });
+
+            if (recipe) {
+                let data = {"recipe": recipe};
+
+                res.render('showRecipe', data);
+            } else {
+                res.status(404).send("sorry, recipe not found!");
+            }
+        }
     })
 }
 
@@ -77,6 +99,8 @@ const homepage = (req, res) => {
 
 app.post('/recipe', postNewRecipe);
 app.get('/recipe/new', newRecipePage);
+
+app.get('/recipe/:id', showRecipePage);
 
 // default index page
 app.get('/', homepage);
