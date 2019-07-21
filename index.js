@@ -40,7 +40,7 @@ app.set('view engine', 'jsx');
 
 
 const homepage = (req, res) => {
-    res.send('home');
+    res.render('home');
 }
 
 /*
