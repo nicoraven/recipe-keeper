@@ -43,7 +43,7 @@ const newRecipePage = (req, res) => {
 }
 
 const postNewRecipe = (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
 
     jsonfile.readFile(file, (err, obj) => {
         let newRecipe = req.body;
@@ -87,6 +87,53 @@ const showRecipePage = (req, res) => {
     })
 }
 
+const editRecipePage = (req, res) => {
+    let id = parseInt(req.params.id);
+
+    jsonfile.readFile(file, (err, obj) => {
+        if (err) {
+            res.status(500).send("Internal server error");
+        } else {
+            let recipe = obj.recipes.find(recipe => {
+                return (recipe.id === id ? recipe : null)
+            });
+
+            if (recipe) {
+                let data = {"recipe": recipe};
+
+                res.render('editRecipe', data);
+            } else {
+                res.status(404).send("sorry, recipe not found!");
+            }
+        }
+    })
+}
+
+const putRecipe = (req, res) => {
+    let id = parseInt(req.params.id);
+
+    jsonfile.readFile(file, (err, obj) => {
+        if (err) {
+            res.status(500).send("Internal server error");
+        } else {
+            let updatedObj = obj;
+            let index = updatedObj.recipes.findIndex(recipe => {
+                return recipe.id === id
+            });
+
+            updatedObj.recipes[index].title = req.body.title;
+            updatedObj.recipes[index].ingredients = req.body.ingredients.split("; ");
+            updatedObj.recipes[index].instructions = req.body.instructions.split("; ");
+
+            jsonfile.writeFile(file, updatedObj, (err) => {
+                if (err) { console.log(err) };
+
+                res.redirect('/recipe/'+id);
+            });
+        }
+    })
+}
+
 const homepage = (req, res) => {
     jsonfile.readFile(file, (err, obj) => {
         if (err) {
@@ -106,8 +153,11 @@ const homepage = (req, res) => {
  * ===================================
  */
 
-app.post('/recipe', postNewRecipe);
+app.get('/recipe/:id/edit', editRecipePage);
+app.put('/recipe/:id', putRecipe);
+
 app.get('/recipe/new', newRecipePage);
+app.post('/recipe', postNewRecipe);
 
 app.get('/recipe/:id', showRecipePage);
 
